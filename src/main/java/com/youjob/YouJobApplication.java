@@ -1,4 +1,4 @@
-package com.youjob.youjob;
+package com.youjob;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
