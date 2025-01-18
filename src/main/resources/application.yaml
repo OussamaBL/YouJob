@@ -1,0 +1,34 @@
+spring:
+  jpa:
+    hibernate:
+      default_schema: public
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  liquibase:
+    enabled: true
+    change-log: db/changelog/master.yaml
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+  docker:
+    compose:
+      file: src/main/docker/compose.yaml
+      enabled: true
+      lifecycle-management: start_only
+  datasource:
+    username: youjob
+    password: password
+    url: jdbc:postgresql://localhost:5433/youjob
+    driver-class-name: org.postgresql.Driver
+
+server:
+  port: 8443
+  ssl:
+    enabled: true
+    key-alias: spring-https
+    key-store: classpath:java.p12
+    key-store-password: password
+    key-store-type: PKCS12
+    key-password: password
