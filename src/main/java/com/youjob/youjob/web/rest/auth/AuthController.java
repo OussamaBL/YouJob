@@ -43,7 +43,6 @@ public class AuthController {
             throw new BadCredentialsException(e.getMessage());
         }
     }
-
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody @Valid LoginVM loginVM){
         User user=loginMapper.toUser(loginVM);
