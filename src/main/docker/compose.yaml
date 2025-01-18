@@ -1,0 +1,14 @@
+name: youjob
+services:
+  postgres:
+    container_name: youjob
+    image: 'postgres:latest'
+    environment:
+      - 'POSTGRES_DB=youjob'
+      - 'POSTGRES_PASSWORD=password'
+      - 'POSTGRES_USER=youjob'
+    ports:
+      - '5433:5432'
+volumes:
+  postgres_data:
+    driver: local

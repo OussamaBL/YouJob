@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.29.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1737229224470-1" author="Youcode (generated)">
+        <createTable tableName="annonces">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_annonces"/>
+            </column>
+            <column name="title" type="VARCHAR(255)"/>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="category" type="VARCHAR(255)"/>
+            <column name="price" type="DOUBLE"/>
+            <column name="location" type="VARCHAR(255)"/>
+            <column name="created_date" type="DATETIME"/>
+            <column name="status" type="VARCHAR(255)"/>
+            <column name="user_id" type="UUID"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1737229224470-2" author="Youcode (generated)">
+        <createTable tableName="businesses">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_businesses"/>
+            </column>
+            <column name="vat_number" type="DOUBLE"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1737229224470-3" author="Youcode (generated)">
+        <createTable tableName="consultations">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_consultations"/>
+            </column>
+            <column name="annonce_id" type="UUID"/>
+            <column name="user_id" type="UUID"/>
+            <column name="response_date" type="DATETIME"/>
+            <column name="message" type="VARCHAR(255)"/>
+            <column name="accepted" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1737229224470-4" author="Youcode (generated)">
+        <createTable tableName="customers">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_customers"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1737229224470-5" author="Youcode (generated)">
+        <createTable tableName="handymans">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_handymans"/>
+            </column>
+            <column name="skills" type="VARCHAR(255)"/>
+            <column name="rating" type="INT"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1737229224470-6" author="Youcode (generated)">
+        <createTable tableName="projects">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_projects"/>
+            </column>
+            <column name="annonce_id" type="UUID"/>
+            <column name="confirmed_date" type="DATETIME"/>
+            <column name="progress" type="VARCHAR(255)"/>
+            <column name="price" type="DOUBLE"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1737229224470-7" author="Youcode (generated)">
+        <createTable tableName="users">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_users"/>
+            </column>
+            <column name="username" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="email" type="VARCHAR(255)"/>
+            <column name="password" type="VARCHAR(255)"/>
+            <column name="phone_number" type="VARCHAR(255)"/>
+            <column name="address" type="VARCHAR(255)"/>
+            <column name="role" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1737229224470-8" author="Youcode (generated)">
+        <addUniqueConstraint columnNames="email" constraintName="uc_users_email" tableName="users"/>
+    </changeSet>
+    <changeSet id="1737229224470-9" author="Youcode (generated)">
+        <addUniqueConstraint columnNames="username" constraintName="uc_users_username" tableName="users"/>
+    </changeSet>
+    <changeSet id="1737229224470-10" author="Youcode (generated)">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="annonces" constraintName="FK_ANNONCES_ON_USER"
+                                 referencedColumnNames="id" referencedTableName="users"/>
+    </changeSet>
+    <changeSet id="1737229224470-11" author="Youcode (generated)">
+        <addForeignKeyConstraint baseColumnNames="id" baseTableName="businesses" constraintName="FK_BUSINESSES_ON_ID"
+                                 referencedColumnNames="id" referencedTableName="users"/>
+    </changeSet>
+    <changeSet id="1737229224470-12" author="Youcode (generated)">
+        <addForeignKeyConstraint baseColumnNames="annonce_id" baseTableName="consultations"
+                                 constraintName="FK_CONSULTATIONS_ON_ANNONCE" referencedColumnNames="id"
+                                 referencedTableName="annonces"/>
+    </changeSet>
+    <changeSet id="1737229224470-13" author="Youcode (generated)">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="consultations"
+                                 constraintName="FK_CONSULTATIONS_ON_USER" referencedColumnNames="id"
+                                 referencedTableName="users"/>
+    </changeSet>
+    <changeSet id="1737229224470-14" author="Youcode (generated)">
+        <addForeignKeyConstraint baseColumnNames="id" baseTableName="customers" constraintName="FK_CUSTOMERS_ON_ID"
+                                 referencedColumnNames="id" referencedTableName="users"/>
+    </changeSet>
+    <changeSet id="1737229224470-15" author="Youcode (generated)">
+        <addForeignKeyConstraint baseColumnNames="id" baseTableName="handymans" constraintName="FK_HANDYMANS_ON_ID"
+                                 referencedColumnNames="id" referencedTableName="users"/>
+    </changeSet>
+    <changeSet id="1737229224470-16" author="Youcode (generated)">
+        <addForeignKeyConstraint baseColumnNames="annonce_id" baseTableName="projects"
+                                 constraintName="FK_PROJECTS_ON_ANNONCE" referencedColumnNames="id"
+                                 referencedTableName="annonces"/>
+    </changeSet>
+
+</databaseChangeLog>
