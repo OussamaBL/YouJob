@@ -51,7 +51,6 @@ public class RegisterVM {
 
     @NotNull(message = "Role is required")
     private UserRole role;
-
     @Nullable
     private Double vatNumber; // For Business
     @Nullable
