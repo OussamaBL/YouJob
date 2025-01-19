@@ -29,6 +29,8 @@ public class AuthController {
         this.authService=authService;
         this.jwtUtil=jwtUtil;
     }
+
+
     @PostMapping("/register")
     public ResponseEntity<String> Register(@RequestBody @Valid RegisterVM registerVM) {
         User user=registerMapper.mapToSpecificUser(registerVM);
