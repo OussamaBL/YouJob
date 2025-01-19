@@ -21,7 +21,6 @@ public class AppUserDetailsService implements UserDetailsService {
     /*public AppUserDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }*/
-
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return (UserDetails) userRepository.findByEmail(email)

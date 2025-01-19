@@ -44,7 +44,6 @@ public class SecurityConfig {
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         http.exceptionHandling()
                 .accessDeniedHandler(new CustomAccessDeniedHandler());
-
         return http.build();
     }
     @Bean
