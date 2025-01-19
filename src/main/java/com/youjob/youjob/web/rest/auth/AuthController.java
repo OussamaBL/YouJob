@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("api/auth")
 public class AuthController {
-
     private final LoginMapper loginMapper;
     private final RegisterMapper registerMapper;
     private final AuthService authService;
@@ -30,7 +29,6 @@ public class AuthController {
         this.authService=authService;
         this.jwtUtil=jwtUtil;
     }
-
     @PostMapping("/register")
     public ResponseEntity<String> Register(@RequestBody @Valid RegisterVM registerVM) {
         User user=registerMapper.mapToSpecificUser(registerVM);
@@ -43,6 +41,7 @@ public class AuthController {
             throw new BadCredentialsException(e.getMessage());
         }
     }
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody @Valid LoginVM loginVM){
         User user=loginMapper.toUser(loginVM);
