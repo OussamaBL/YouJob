@@ -1,5 +1,6 @@
 package com.youjob.youjob.web.vm.error;
 
+import com.youjob.youjob.exception.ForgetPass.TokenInvalidException;
 import com.youjob.youjob.exception.auth.UserAlreadyExistException;
 import com.youjob.youjob.exception.auth.UserNotExistException;
 import org.springframework.http.HttpStatus;
@@ -39,5 +40,10 @@ public class GlobalExceptionHandler {
         error.put("error",exception.getMessage());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
     }
-
+    @ExceptionHandler(TokenInvalidException.class)
+    public ResponseEntity<Map<String,String>> handleTokenInvalidException(TokenInvalidException exception){
+        Map<String,String> error=new HashMap<>();
+        error.put("error",exception.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+    }
 }

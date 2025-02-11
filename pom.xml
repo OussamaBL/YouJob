@@ -107,6 +107,25 @@
             <version>1.5.3.Final</version>
             <scope>provided</scope>
         </dependency>
+
+            <!-- Spring Boot Starter Mail -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-mail</artifactId>
+            </dependency>
+
+            <!-- Spring Boot Starter Thymeleaf (for email templates) -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-thymeleaf</artifactId>
+            </dependency>
+
+            <!-- Java Mail API (if not included in spring-boot-starter-mail) -->
+            <dependency>
+                <groupId>com.sun.mail</groupId>
+                <artifactId>javax.mail</artifactId>
+                <version>1.6.2</version>
+            </dependency>
     </dependencies>
 
 
