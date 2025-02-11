@@ -26,12 +26,12 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception { /*controlle any request http*/
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .requiresChannel(channel -> channel
                         .anyRequest().requiresSecure())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/login", "/api/auth/register").permitAll()
+                        .requestMatchers("/api/auth/login", "/api/auth/register","/api/auth/password/forgot","/api/auth/password/reset").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
@@ -44,7 +44,6 @@ public class SecurityConfig {
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         http.exceptionHandling()
                 .accessDeniedHandler(new CustomAccessDeniedHandler());
-
         return http.build();
     }
     @Bean

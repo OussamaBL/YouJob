@@ -18,7 +18,6 @@ public class JwtUtil {
         HashedMap<String, String> infos = new HashedMap<>();
         infos.put("username", username);
         infos.put("role", role);
-
         return Jwts.builder()
                 .setClaims(infos)
                 .setSubject(email)
