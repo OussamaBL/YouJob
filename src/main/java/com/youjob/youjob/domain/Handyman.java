@@ -21,7 +21,7 @@ public class Handyman extends User{
     private String skills;
 
     @Column(nullable = true)
-    private int rating;
+    private Integer rating;
 
     @OneToMany(mappedBy = "responder", cascade = CascadeType.ALL)
     private List<Consultation> consultations; // Responses to ads and proposed services

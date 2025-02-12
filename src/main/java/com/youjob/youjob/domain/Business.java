@@ -16,7 +16,7 @@ import java.util.List;
 public class Business extends User {
 
     @Column(nullable = true)
-    private double vatNumber;
+    private Double vatNumber;
 
     @OneToMany(mappedBy = "createdBy", cascade = CascadeType.ALL)
     private List<Annonce> annonceList;
