@@ -1,6 +1,8 @@
 package com.youjob.youjob.web.vm.error;
 
 import com.youjob.youjob.exception.ForgetPass.TokenInvalidException;
+import com.youjob.youjob.exception.NullVarException;
+import com.youjob.youjob.exception.annonce.AnnonceNotExistException;
 import com.youjob.youjob.exception.annonce.InvalidAnnonceException;
 import com.youjob.youjob.exception.auth.UserAlreadyExistException;
 import com.youjob.youjob.exception.auth.UserNotExistException;
@@ -49,6 +51,18 @@ public class GlobalExceptionHandler {
     }
     @ExceptionHandler(InvalidAnnonceException.class)
     public ResponseEntity<Map<String,String>> handleInvalidAnnonceException(InvalidAnnonceException exception){
+        Map<String,String> error=new HashMap<>();
+        error.put("error",exception.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+    }
+    @ExceptionHandler(AnnonceNotExistException.class)
+    public ResponseEntity<Map<String,String>> handleAnnonceNotExistException(AnnonceNotExistException exception){
+        Map<String,String> error=new HashMap<>();
+        error.put("error",exception.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+    }
+    @ExceptionHandler(NullVarException.class)
+    public ResponseEntity<Map<String,String>> handleNullVarException(NullVarException exception){
         Map<String,String> error=new HashMap<>();
         error.put("error",exception.getMessage());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
