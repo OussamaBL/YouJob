@@ -11,5 +11,6 @@ import java.util.UUID;
 
 @Repository
 public interface AnnonceRepository extends JpaRepository<Annonce, UUID> {
-    Page<Annonce> getAnnoncesByCreatedByIdAndStatus(UUID id, AnnonceStatus annonceStatus,Pageable pageable);
+    Page<Annonce> getAllByCreatedByIdAndStatus(UUID id, AnnonceStatus annonceStatus,Pageable pageable);
+    Page<Annonce> getAllByStatus(AnnonceStatus annonceStatus,Pageable pageable);
 }

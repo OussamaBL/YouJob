@@ -1,6 +1,7 @@
 package com.youjob.youjob.web.rest.annonce;
 
 import com.youjob.youjob.domain.Annonce;
+import com.youjob.youjob.domain.Enum.AnnonceStatus;
 import com.youjob.youjob.service.AnnonceService;
 import com.youjob.youjob.web.vm.annonce.AnnonceCreateVM;
 import com.youjob.youjob.web.vm.annonce.AnnonceUpdateVM;
@@ -9,12 +10,14 @@ import com.youjob.youjob.web.vm.mapper.annonce.AnnonceCreateMapper;
 import com.youjob.youjob.web.vm.mapper.annonce.AnnonceUpdateMapper;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -56,5 +59,11 @@ public class AnnonceController {
         response.put("message", "Annonce updated successfully");
         response.put("data", responseAnnnonceVM);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+    @GetMapping("/filter")
+    public ResponseEntity<Page<ResponseHistoryAnnnonceVM>> filterAnnonceStatus(@RequestParam AnnonceStatus status,@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size){
+        Page<Annonce> annonces=annonceService.filterAnnonceStatus(status,page,size);
+        Page<ResponseHistoryAnnnonceVM> responseAnnonce=annonces.map((annonce ->  annonceCreateMapper.toResponseHistoryVM(annonce) ));
+        return new ResponseEntity<>(responseAnnonce,HttpStatus.OK);
     }
 }
