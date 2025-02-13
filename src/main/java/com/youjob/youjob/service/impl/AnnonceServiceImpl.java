@@ -33,7 +33,7 @@ public class AnnonceServiceImpl implements AnnonceService {
         if(id==null || id.equals("")) throw new NullVarException("id is null");
         userRepository.findById(id).orElseThrow(()->new UserNotExistException("user not found"));
         Pageable pageable= PageRequest.of(page,size);
-        return annonceRepository.getAnnoncesByCreatedByIdAndStatus(id, AnnonceStatus.ARCHIVED,pageable);
+        return annonceRepository.getAllByCreatedByIdAndStatus(id, AnnonceStatus.ARCHIVED,pageable);
     }
 
     @Override
@@ -69,5 +69,11 @@ public class AnnonceServiceImpl implements AnnonceService {
         if (annonce.getLocation() != null) existingAnnonce.setLocation(annonce.getLocation());
 
         return annonceRepository.save(existingAnnonce);
+    }
+
+    @Override
+    public Page<Annonce> filterAnnonceStatus(AnnonceStatus annonceStatus, int page, int size) {
+        Pageable pageable= PageRequest.of(page,size);
+        return annonceRepository.getAllByStatus(annonceStatus,pageable);
     }
 }
