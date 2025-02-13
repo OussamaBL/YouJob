@@ -30,7 +30,7 @@ public class AnnonceCreateVM {
     private AnnonceStatus status=AnnonceStatus.ACTIVE;
 
     @NotNull(message = "User ID is required")
-    private UUID createdBy;
+    private UUID user_id;
 
     public String getTitle() {
         return title;
@@ -88,11 +88,11 @@ public class AnnonceCreateVM {
         this.status = status;
     }
 
-    public UUID getCreatedBy() {
-        return createdBy;
+    public UUID getUser_id() {
+        return user_id;
     }
 
-    public void setCreatedBy(UUID createdBy) {
-        this.createdBy = createdBy;
+    public void setUser_id(UUID user_id) {
+        this.user_id = user_id;
     }
 }
