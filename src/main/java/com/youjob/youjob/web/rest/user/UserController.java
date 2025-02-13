@@ -5,7 +5,7 @@ import com.youjob.youjob.domain.User;
 import com.youjob.youjob.service.AnnonceService;
 import com.youjob.youjob.service.AuthService;
 import com.youjob.youjob.web.vm.annonce.ResponseHistoryAnnnonceVM;
-import com.youjob.youjob.web.vm.mapper.annonce.AnnonceHistoryMapper;
+import com.youjob.youjob.web.vm.mapper.annonce.AnnonceCreateMapper;
 import com.youjob.youjob.web.vm.mapper.user.UserMapper;
 import com.youjob.youjob.web.vm.user.ProfileVM;
 import jakarta.transaction.Transactional;
@@ -15,8 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -26,12 +24,12 @@ public class UserController {
     private final UserMapper userMapper;
     private final AuthService authService;
     private final AnnonceService annonceService;
-    private final AnnonceHistoryMapper annonceHistoryMapper;
-    public UserController(UserMapper userMapper,AuthService authService,AnnonceService annonceService,AnnonceHistoryMapper annonceHistoryMapper){
+    private final AnnonceCreateMapper annonceCreateMapper;
+    public UserController(UserMapper userMapper,AuthService authService,AnnonceService annonceService,AnnonceCreateMapper annonceCreateMapper){
         this.userMapper=userMapper;
         this.authService=authService;
         this.annonceService=annonceService;
-        this.annonceHistoryMapper=annonceHistoryMapper;
+        this.annonceCreateMapper=annonceCreateMapper;
     }
     @Transactional
     @PutMapping("/profile/{id}")
@@ -49,7 +47,7 @@ public class UserController {
     @GetMapping("/annonce/history/{id}")
     public ResponseEntity<Page<ResponseHistoryAnnnonceVM>> History_annonce(@PathVariable UUID id, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size){
         Page<Annonce> annonces=annonceService.getHistory_Annonce(id, page, size);
-        Page<ResponseHistoryAnnnonceVM> responseHistoryAnnnonceVMS=annonces.map(annonce -> annonceHistoryMapper.toResponseAnnonce(annonce));
+        Page<ResponseHistoryAnnnonceVM> responseHistoryAnnnonceVMS=annonces.map(annonce -> annonceCreateMapper.toResponseHistoryVM(annonce));
         return new ResponseEntity<>(responseHistoryAnnnonceVMS,HttpStatus.OK);
     }
 }

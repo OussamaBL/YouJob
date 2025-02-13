@@ -8,4 +8,6 @@ import java.util.UUID;
 public interface AnnonceService {
     Page<Annonce> getHistory_Annonce(UUID id,int page,int size);
     Annonce CreateAnnonce(Annonce annonce);
+    void DeleteAnnonce(UUID id);
+    Annonce updateAnnonce(Annonce annonce);
 }

@@ -5,6 +5,7 @@ import com.youjob.youjob.domain.Enum.AnnonceStatus;
 import com.youjob.youjob.domain.Enum.UserRole;
 import com.youjob.youjob.domain.User;
 import com.youjob.youjob.exception.NullVarException;
+import com.youjob.youjob.exception.annonce.AnnonceNotExistException;
 import com.youjob.youjob.exception.annonce.InvalidAnnonceException;
 import com.youjob.youjob.exception.auth.UserNotExistException;
 import com.youjob.youjob.repository.AnnonceRepository;
@@ -41,5 +42,32 @@ public class AnnonceServiceImpl implements AnnonceService {
         user.orElseThrow(()->new UserNotExistException("User not found"));
         if(user.get().getRole().equals(UserRole.HANDYMAN)) throw new InvalidAnnonceException("Handyman connot posted a annonce");
         return annonceRepository.save(annonce);
+    }
+
+    @Override
+    public void DeleteAnnonce(UUID id) {
+        Optional<Annonce> annonce=annonceRepository.findById(id);
+        annonce.orElseThrow(()->new AnnonceNotExistException("annonce not found"));
+        Annonce annonce1=annonce.get();
+        if(annonce1.getStatus()==AnnonceStatus.ACTIVE)
+            annonceRepository.delete(annonce1);
+    }
+
+    @Override
+    public Annonce updateAnnonce(Annonce annonce) {
+        if(annonce.getId()==null) throw new NullVarException("id is null");
+        Optional<Annonce> annonce1=annonceRepository.findById(annonce.getId());
+        annonce1.orElseThrow(() -> new AnnonceNotExistException("Annonce id not exist"));
+        Annonce existingAnnonce=annonce1.get();
+        if(existingAnnonce.getStatus()==AnnonceStatus.ARCHIVED) throw new InvalidAnnonceException("cannot update annonce archived");
+
+        if (annonce.getTitle() != null && !annonce.getTitle().equals(existingAnnonce.getTitle()))
+            existingAnnonce.setTitle(annonce.getTitle());
+        if (annonce.getCategory() != null) existingAnnonce.setCategory(annonce.getCategory());
+        if (annonce.getDescription() != null) existingAnnonce.setDescription(annonce.getDescription());
+        if (annonce.getPrice() != null) existingAnnonce.setPrice(annonce.getPrice());
+        if (annonce.getLocation() != null) existingAnnonce.setLocation(annonce.getLocation());
+
+        return annonceRepository.save(existingAnnonce);
     }
 }
