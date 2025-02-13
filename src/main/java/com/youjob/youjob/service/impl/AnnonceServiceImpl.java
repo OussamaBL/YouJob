@@ -76,4 +76,10 @@ public class AnnonceServiceImpl implements AnnonceService {
         Pageable pageable= PageRequest.of(page,size);
         return annonceRepository.getAllByStatus(annonceStatus,pageable);
     }
+
+    @Override
+    public Page<Annonce> disponibleAnnonce(int page, int size) {
+        Pageable pageable= PageRequest.of(page,size);
+        return annonceRepository.getAllByStatus(AnnonceStatus.ACTIVE,pageable);
+    }
 }

@@ -66,4 +66,10 @@ public class AnnonceController {
         Page<ResponseHistoryAnnnonceVM> responseAnnonce=annonces.map((annonce ->  annonceCreateMapper.toResponseHistoryVM(annonce) ));
         return new ResponseEntity<>(responseAnnonce,HttpStatus.OK);
     }
+    @GetMapping("/dispo")
+    public ResponseEntity<Page<ResponseHistoryAnnnonceVM>> disponibleAnnonce(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size){
+        Page<Annonce> annonces=annonceService.disponibleAnnonce(page,size);
+        Page<ResponseHistoryAnnnonceVM> responseAnnonce=annonces.map((annonce ->  annonceCreateMapper.toResponseHistoryVM(annonce) ));
+        return new ResponseEntity<>(responseAnnonce,HttpStatus.OK);
+    }
 }

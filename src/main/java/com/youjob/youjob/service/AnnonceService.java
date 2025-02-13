@@ -12,4 +12,6 @@ public interface AnnonceService {
     void DeleteAnnonce(UUID id);
     Annonce updateAnnonce(Annonce annonce);
     Page<Annonce> filterAnnonceStatus(AnnonceStatus annonceStatus,int page,int size);
+    Page<Annonce> disponibleAnnonce(int page,int size);
+
 }
