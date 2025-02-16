@@ -2,10 +2,12 @@ package com.youjob.youjob.web.rest.annonce;
 
 import com.youjob.youjob.domain.Annonce;
 import com.youjob.youjob.domain.Enum.AnnonceStatus;
+import com.youjob.youjob.repository.impl.AnnonceRepositoryImpl;
 import com.youjob.youjob.service.AnnonceService;
 import com.youjob.youjob.web.vm.annonce.AnnonceCreateVM;
 import com.youjob.youjob.web.vm.annonce.AnnonceUpdateVM;
 import com.youjob.youjob.web.vm.annonce.ResponseHistoryAnnnonceVM;
+import com.youjob.youjob.web.vm.annonce.SearchDTO;
 import com.youjob.youjob.web.vm.mapper.annonce.AnnonceCreateMapper;
 import com.youjob.youjob.web.vm.mapper.annonce.AnnonceUpdateMapper;
 import jakarta.transaction.Transactional;
@@ -27,10 +29,12 @@ public class AnnonceController {
     private final AnnonceCreateMapper annonceCreateMapper;
     private final AnnonceUpdateMapper annonceUpdateMapper;
     private final AnnonceService annonceService;
-    public AnnonceController(AnnonceCreateMapper annonceCreateMapper,AnnonceUpdateMapper annonceUpdateMapper,AnnonceService annonceService){
+    private final AnnonceRepositoryImpl annonceRepositoryImpl;
+    public AnnonceController(AnnonceCreateMapper annonceCreateMapper,AnnonceUpdateMapper annonceUpdateMapper,AnnonceService annonceService,AnnonceRepositoryImpl annonceRepositoryImpl){
         this.annonceCreateMapper=annonceCreateMapper;
         this.annonceUpdateMapper=annonceUpdateMapper;
         this.annonceService=annonceService;
+        this.annonceRepositoryImpl=annonceRepositoryImpl;
     }
     @PostMapping("/create")
     public ResponseEntity<Map<String,Object>> CreateAnnonce(@RequestBody @Valid AnnonceCreateVM annonceCreateVM){
@@ -63,6 +67,21 @@ public class AnnonceController {
     @GetMapping("/filter")
     public ResponseEntity<Page<ResponseHistoryAnnnonceVM>> filterAnnonceStatus(@RequestParam AnnonceStatus status,@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size){
         Page<Annonce> annonces=annonceService.filterAnnonceStatus(status,page,size);
+        Page<ResponseHistoryAnnnonceVM> responseAnnonce=annonces.map((annonce ->  annonceCreateMapper.toResponseHistoryVM(annonce) ));
+        return new ResponseEntity<>(responseAnnonce,HttpStatus.OK);
+    }
+    @GetMapping("/dispo")
+    public ResponseEntity<Page<ResponseHistoryAnnnonceVM>> disponibleAnnonce(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size){
+        Page<Annonce> annonces=annonceService.disponibleAnnonce(page,size);
+        Page<ResponseHistoryAnnnonceVM> responseAnnonce=annonces.map((annonce ->  annonceCreateMapper.toResponseHistoryVM(annonce) ));
+        return new ResponseEntity<>(responseAnnonce,HttpStatus.OK);
+    }
+
+    @PostMapping("/filterbyCategoryLocation")
+    public ResponseEntity<Page<ResponseHistoryAnnnonceVM>> filterbyCategoryLocation(@RequestBody @Valid SearchDTO searchDTO,
+                                                                                    @RequestParam(defaultValue = "0") int page,
+                                                                                    @RequestParam(defaultValue = "10") int size){
+        Page<Annonce> annonces=annonceService.filterbyCategoryAndLocation(searchDTO,page,size);
         Page<ResponseHistoryAnnnonceVM> responseAnnonce=annonces.map((annonce ->  annonceCreateMapper.toResponseHistoryVM(annonce) ));
         return new ResponseEntity<>(responseAnnonce,HttpStatus.OK);
     }
