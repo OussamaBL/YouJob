@@ -93,6 +93,7 @@ public class AnnonceServiceImplTest {
     }
 
 
+
     @Test
     void testCreateAnnonce_HandymanCannotPost() {
         UUID userId = UUID.randomUUID();
