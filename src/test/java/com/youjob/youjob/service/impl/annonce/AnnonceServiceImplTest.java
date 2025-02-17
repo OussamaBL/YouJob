@@ -92,6 +92,7 @@ public class AnnonceServiceImplTest {
         verify(annonceRepository).save(annonce);
     }
 
+
     @Test
     void testCreateAnnonce_HandymanCannotPost() {
         UUID userId = UUID.randomUUID();
