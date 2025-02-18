@@ -4,8 +4,10 @@ import com.youjob.youjob.exception.ForgetPass.TokenInvalidException;
 import com.youjob.youjob.exception.NullVarException;
 import com.youjob.youjob.exception.annonce.AnnonceNotExistException;
 import com.youjob.youjob.exception.annonce.InvalidAnnonceException;
+import com.youjob.youjob.exception.auth.StatusInvalidException;
 import com.youjob.youjob.exception.auth.UserAlreadyExistException;
 import com.youjob.youjob.exception.auth.UserNotExistException;
+import com.youjob.youjob.exception.consultation.ConsultationInvalidException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -63,6 +65,18 @@ public class GlobalExceptionHandler {
     }
     @ExceptionHandler(NullVarException.class)
     public ResponseEntity<Map<String,String>> handleNullVarException(NullVarException exception){
+        Map<String,String> error=new HashMap<>();
+        error.put("error",exception.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+    }
+    @ExceptionHandler(StatusInvalidException.class)
+    public ResponseEntity<Map<String,String>> handleStatusInvalidException(StatusInvalidException exception){
+        Map<String,String> error=new HashMap<>();
+        error.put("error",exception.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+    }
+    @ExceptionHandler(ConsultationInvalidException.class)
+    public ResponseEntity<Map<String,String>> handleConsultationInvalidException(ConsultationInvalidException exception){
         Map<String,String> error=new HashMap<>();
         error.put("error",exception.getMessage());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
