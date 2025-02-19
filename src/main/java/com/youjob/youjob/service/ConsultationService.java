@@ -7,4 +7,5 @@ import java.util.UUID;
 public interface ConsultationService {
     Consultation CreateConsultation(Consultation consultation);
     Consultation approveConsultation(UUID uuid);
+    Consultation rejectConsultation(UUID uuid);
 }

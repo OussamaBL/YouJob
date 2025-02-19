@@ -45,5 +45,14 @@ public class ConsultationController {
         response.put("data", responseConsultationVM);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
+    @PostMapping("/reject/{id}")
+    public ResponseEntity<Map<String,Object>> rejectConsultation(@PathVariable UUID id){
+        Consultation consultation=consultationService.rejectConsultation(id);
+        ResponseConsultationVM responseConsultationVM=consultationMapper.toResponseConsultation(consultation);
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Consulation rejected successfully");
+        response.put("data", responseConsultationVM);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
 
 }
