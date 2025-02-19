@@ -93,4 +93,13 @@ public class ConsultationServiceImpl implements ConsultationService {
         consultation1.setAccepted(false);
         return consultationRepository.save(consultation1);
     }
+
+    @Override
+    public void deleteConsultation(UUID uuid) {
+        if(uuid==null || uuid.equals("")) throw new NullVarException("uuid null");
+        Optional<Consultation> consultation=consultationRepository.findById(uuid);
+        consultation.orElseThrow(()-> new ConsultationInvalidException("consultation not found"));
+        Consultation consultation1=consultation.get();
+        consultationRepository.delete(consultation1);
+    }
 }

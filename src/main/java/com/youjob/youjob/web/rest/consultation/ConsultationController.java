@@ -54,5 +54,10 @@ public class ConsultationController {
         response.put("data", responseConsultationVM);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteConsultation(@PathVariable UUID id){
+        consultationService.deleteConsultation(id);
+        return new ResponseEntity<>("Consulation deleted successfully", HttpStatus.OK);
+    }
 
 }
