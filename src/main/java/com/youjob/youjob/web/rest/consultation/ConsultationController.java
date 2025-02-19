@@ -11,13 +11,11 @@ import com.youjob.youjob.web.vm.mapper.consultation.ConsultationMapper;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("api/consultation")
@@ -38,4 +36,28 @@ public class ConsultationController {
         response.put("data", responseConsultationVM);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
+    @PostMapping("/approve/{id}")
+    public ResponseEntity<Map<String,Object>> approveConsultation(@PathVariable UUID id){
+        Consultation consultation=consultationService.approveConsultation(id);
+        ResponseConsultationVM responseConsultationVM=consultationMapper.toResponseConsultation(consultation);
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Consulation approved and project created successfully");
+        response.put("data", responseConsultationVM);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+    @PostMapping("/reject/{id}")
+    public ResponseEntity<Map<String,Object>> rejectConsultation(@PathVariable UUID id){
+        Consultation consultation=consultationService.rejectConsultation(id);
+        ResponseConsultationVM responseConsultationVM=consultationMapper.toResponseConsultation(consultation);
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Consulation rejected successfully");
+        response.put("data", responseConsultationVM);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteConsultation(@PathVariable UUID id){
+        consultationService.deleteConsultation(id);
+        return new ResponseEntity<>("Consulation deleted successfully", HttpStatus.OK);
+    }
+
 }
