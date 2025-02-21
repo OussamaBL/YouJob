@@ -25,12 +25,19 @@ public class Project {
     @JoinColumn(name = "annonce_id")
     private Annonce annonce;
 
+    @Column(name = "confirmed_date", nullable = true)
     private LocalDateTime confirmedDate;
 
     @Enumerated(EnumType.STRING)
     private ProjectProgress progress;
 
     private Double price;
+
+    @Column(nullable = true)
+    private Boolean accepted;
+
+    @Column(nullable = true)
+    private LocalDateTime dateComplete;
 
     /*@ManyToOne
     @JoinColumn(name = "bricoleur_id")
