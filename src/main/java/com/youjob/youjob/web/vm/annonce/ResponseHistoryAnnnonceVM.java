@@ -1,5 +1,6 @@
 package com.youjob.youjob.web.vm.annonce;
 
+import com.youjob.youjob.domain.Enum.AnnonceStatus;
 import com.youjob.youjob.domain.User;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -10,10 +11,13 @@ import java.util.UUID;
 public class ResponseHistoryAnnnonceVM {
     private UUID id;
     private String title;
+    private String description;
+
     private String category;
     private Double price;
     private String location;
     private LocalDateTime createdDate;
+    private AnnonceStatus status;
 
     public UUID getId() {
         return id;
@@ -61,5 +65,21 @@ public class ResponseHistoryAnnnonceVM {
 
     public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public AnnonceStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(AnnonceStatus status) {
+        this.status = status;
     }
 }

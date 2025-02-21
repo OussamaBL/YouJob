@@ -60,4 +60,6 @@ public class ConsultationController {
         return new ResponseEntity<>("Consulation deleted successfully", HttpStatus.OK);
     }
 
+    
+
 }

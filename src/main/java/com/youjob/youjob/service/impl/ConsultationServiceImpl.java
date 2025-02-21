@@ -74,8 +74,10 @@ public class ConsultationServiceImpl implements ConsultationService {
 
         Project project=new Project();
         project.setAnnonce(consultation1.getAnnonce());
-        project.setConfirmedDate(LocalDateTime.now());
         project.setProgress(ProjectProgress.PENDING);
+        project.setConfirmedDate(null);
+        project.setAccepted(null);
+        project.setDateComplete(null);
         project.setPrice(consultation1.getAnnonce().getPrice());
         projectRepository.save(project);
 

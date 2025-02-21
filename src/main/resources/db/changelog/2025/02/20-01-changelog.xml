@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.29.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1740066222177-1" author="Youcode (generated)">
+        <addColumn tableName="projects">
+            <column name="accepted" type="BOOLEAN"/>
+            <column name="date_complete" type="DATETIME"/>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>
