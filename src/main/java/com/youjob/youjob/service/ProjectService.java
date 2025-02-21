@@ -7,4 +7,5 @@ import java.util.UUID;
 public interface ProjectService {
     Project Confirm(UUID id);
     void deleteProject(UUID uuid);
+    Project CompleteProject(UUID uuid);
 }

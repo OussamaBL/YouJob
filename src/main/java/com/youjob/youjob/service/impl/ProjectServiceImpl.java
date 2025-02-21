@@ -1,7 +1,9 @@
 package com.youjob.youjob.service.impl;
 
+import com.youjob.youjob.domain.Enum.AnnonceStatus;
 import com.youjob.youjob.domain.Enum.ProjectProgress;
 import com.youjob.youjob.domain.Project;
+import com.youjob.youjob.exception.project.ProjectInvalidException;
 import com.youjob.youjob.exception.project.ProjectNotFoundException;
 import com.youjob.youjob.repository.ProjectRepository;
 import com.youjob.youjob.service.ProjectService;
@@ -35,4 +37,17 @@ public class ProjectServiceImpl implements ProjectService {
         Project project1=project.get();
         projectRepository.delete(project1);
     }
+
+    @Override
+    public Project CompleteProject(UUID uuid) {
+        Optional<Project> project=projectRepository.findById(uuid);
+        project.orElseThrow(()->new ProjectNotFoundException("project not found"));
+        Project project1=project.get();
+        if(project1.getProgress()!=ProjectProgress.IN_PROGRESS) throw new ProjectInvalidException("Status should be in progress");
+        project1.setDateComplete(LocalDateTime.now());
+        project1.setProgress(ProjectProgress.COMPLETED);
+        project1.getAnnonce().setStatus(AnnonceStatus.ARCHIVED);
+        return projectRepository.save(project1);
+    }
+
 }

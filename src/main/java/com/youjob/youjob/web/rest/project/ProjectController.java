@@ -37,4 +37,13 @@ public class ProjectController {
         projectService.deleteProject(id);
         return new ResponseEntity<>("Project deleted successfully", HttpStatus.OK);
     }
+    @PostMapping("/complete/{id}")
+    public ResponseEntity<Map<String,Object>> completeProject(@PathVariable UUID id){
+        Project project=projectService.CompleteProject(id);
+        ResponseProjectVM responseProjectVM=projectMapper.toResponseProjectVM(project);
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Project Completed");
+        response.put("data", responseProjectVM);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
 }
