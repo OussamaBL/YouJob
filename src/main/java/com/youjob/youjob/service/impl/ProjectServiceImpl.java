@@ -32,9 +32,7 @@ public class ProjectServiceImpl implements ProjectService {
     public void deleteProject(UUID uuid) {
         Optional<Project> project=projectRepository.findById(uuid);
         project.orElseThrow(()->new ProjectNotFoundException("project not found"));
-        //
-
-
-        projectRepository.delete(project.get());
+        Project project1=project.get();
+        projectRepository.delete(project1);
     }
 }

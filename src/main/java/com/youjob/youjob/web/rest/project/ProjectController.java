@@ -35,6 +35,6 @@ public class ProjectController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteProject(@PathVariable UUID id){
         projectService.deleteProject(id);
-        return new ResponseEntity<>("Consulation deleted successfully", HttpStatus.OK);
+        return new ResponseEntity<>("Project deleted successfully", HttpStatus.OK);
     }
 }
