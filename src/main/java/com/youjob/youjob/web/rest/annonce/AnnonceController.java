@@ -53,7 +53,7 @@ public class AnnonceController {
         return new ResponseEntity<>("Annonce deleted successfully", HttpStatus.OK);
     }
 
-    @PutMapping("/edit/{id}")
+        @PutMapping("/edit/{id}")
     public ResponseEntity<Map<String,Object>> edit(@RequestBody @Valid AnnonceUpdateVM annonceUpdateVM, @PathVariable UUID id){
         Annonce annonce=annonceUpdateMapper.toAnnonce(annonceUpdateVM);
         annonce.setId(id);
@@ -67,6 +67,12 @@ public class AnnonceController {
     @GetMapping("/filter")
     public ResponseEntity<Page<ResponseHistoryAnnnonceVM>> filterAnnonceStatus(@RequestParam AnnonceStatus status,@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size){
         Page<Annonce> annonces=annonceService.filterAnnonceStatus(status,page,size);
+        Page<ResponseHistoryAnnnonceVM> responseAnnonce=annonces.map((annonce ->  annonceCreateMapper.toResponseHistoryVM(annonce) ));
+        return new ResponseEntity<>(responseAnnonce,HttpStatus.OK);
+    }
+    @GetMapping("/AnnonceUser")
+    public ResponseEntity<Page<ResponseHistoryAnnnonceVM>> AnnonceUser(@RequestParam UUID id,@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size){
+        Page<Annonce> annonces=annonceService.getAnnonceUser(id,page,size);
         Page<ResponseHistoryAnnnonceVM> responseAnnonce=annonces.map((annonce ->  annonceCreateMapper.toResponseHistoryVM(annonce) ));
         return new ResponseEntity<>(responseAnnonce,HttpStatus.OK);
     }

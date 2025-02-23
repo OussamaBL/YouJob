@@ -41,6 +41,14 @@ public class AnnonceServiceImpl implements AnnonceService {
     }
 
     @Override
+    public Page<Annonce> getAnnonceUser(UUID uuid,int page, int size) {
+        if(uuid==null || uuid.equals("")) throw new NullVarException("id is null");
+        userRepository.findById(uuid).orElseThrow(()->new UserNotExistException("user not found"));
+        Pageable pageable= PageRequest.of(page,size);
+        return annonceRepository.getAllByCreatedById(uuid,pageable);
+    }
+
+    @Override
     public Annonce CreateAnnonce(Annonce annonce) {
         Optional<User> user= userRepository.findById(annonce.getCreatedBy().getId());
         user.orElseThrow(()->new UserNotExistException("User not found"));

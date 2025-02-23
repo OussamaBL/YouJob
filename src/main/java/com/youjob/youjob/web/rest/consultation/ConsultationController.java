@@ -9,6 +9,7 @@ import com.youjob.youjob.web.vm.consultation.ConsultationCreateVM;
 import com.youjob.youjob.web.vm.consultation.ResponseConsultationVM;
 import com.youjob.youjob.web.vm.mapper.consultation.ConsultationMapper;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -59,7 +60,20 @@ public class ConsultationController {
         consultationService.deleteConsultation(id);
         return new ResponseEntity<>("Consulation deleted successfully", HttpStatus.OK);
     }
+    @GetMapping("/annonceResponder/{uuid}")
+    public ResponseEntity<Page<ResponseConsultationVM>> getAnnonceConsultationUser(@RequestParam UUID uuid, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size){
+        Page<Consultation> consultations=consultationService.getAnnonceConsultationUser(uuid,page,size);
+        Page<ResponseConsultationVM> responseConsultationVMS=consultations.map((consultation ->  consultationMapper.toResponseConsultation(consultation) ));
+        return new ResponseEntity<>(responseConsultationVMS,HttpStatus.OK);
+    }
+    @GetMapping("/ResponderAnnonce/{uuid}")
+    public ResponseEntity<Page<ResponseConsultationVM>> getResponderAnnonce(@RequestParam UUID uuid, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size){
+        Page<Consultation> consultations=consultationService.getResponderAnnonce(uuid,page,size);
+        Page<ResponseConsultationVM> responseConsultationVMS=consultations.map((consultation ->  consultationMapper.toResponseConsultation(consultation) ));
+        return new ResponseEntity<>(responseConsultationVMS,HttpStatus.OK);
+    }
 
-    
+
+
 
 }
