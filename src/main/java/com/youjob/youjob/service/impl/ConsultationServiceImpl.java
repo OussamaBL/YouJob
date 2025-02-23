@@ -18,6 +18,9 @@ import com.youjob.youjob.repository.ConsultationRepository;
 import com.youjob.youjob.repository.ProjectRepository;
 import com.youjob.youjob.repository.UserRepository;
 import com.youjob.youjob.service.ConsultationService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.management.relation.RoleStatus;
@@ -103,5 +106,21 @@ public class ConsultationServiceImpl implements ConsultationService {
         consultation.orElseThrow(()-> new ConsultationInvalidException("consultation not found"));
         Consultation consultation1=consultation.get();
         consultationRepository.delete(consultation1);
+    }
+
+    @Override
+    public Page<Consultation> getAnnonceConsultationUser(UUID uuid, int page, int size) {
+        if(uuid==null || uuid.equals("")) throw new NullVarException("id is null");
+        userRepository.findById(uuid).orElseThrow(()->new UserNotExistException("user not found"));
+        Pageable pageable= PageRequest.of(page,size);
+        return consultationRepository.findAllByResponderId(uuid,pageable);
+    }
+
+    @Override
+    public Page<Consultation> getResponderAnnonce(UUID uuid, int page, int size) {
+        if(uuid==null || uuid.equals("")) throw new NullVarException("id is null");
+        annonceRepository.findById(uuid).orElseThrow(()->new AnnonceNotExistException("annonce not found"));
+        Pageable pageable= PageRequest.of(page,size);
+        return consultationRepository.findAllByAnnonceId(uuid,pageable);
     }
 }

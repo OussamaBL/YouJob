@@ -1,6 +1,7 @@
 package com.youjob.youjob.web.rest.user;
 
 import com.youjob.youjob.domain.Annonce;
+import com.youjob.youjob.domain.Enum.UserRole;
 import com.youjob.youjob.domain.User;
 import com.youjob.youjob.service.AnnonceService;
 import com.youjob.youjob.service.AuthService;
@@ -8,6 +9,7 @@ import com.youjob.youjob.web.vm.annonce.ResponseHistoryAnnnonceVM;
 import com.youjob.youjob.web.vm.mapper.annonce.AnnonceCreateMapper;
 import com.youjob.youjob.web.vm.mapper.user.UserMapper;
 import com.youjob.youjob.web.vm.user.ProfileVM;
+import com.youjob.youjob.web.vm.user.ResponseUserVM;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -49,5 +51,17 @@ public class UserController {
         Page<Annonce> annonces=annonceService.getHistory_Annonce(id, page, size);
         Page<ResponseHistoryAnnnonceVM> responseHistoryAnnnonceVMS=annonces.map(annonce -> annonceCreateMapper.toResponseHistoryVM(annonce));
         return new ResponseEntity<>(responseHistoryAnnnonceVMS,HttpStatus.OK);
+    }
+    @GetMapping("/users/bricoleur")
+    public ResponseEntity<Page<ResponseUserVM>> UsersBricoleur(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size){
+        Page<User> users=authService.getUserBricoleur( page, size);
+        Page<ResponseUserVM> responseUserVM=users.map(user -> userMapper.toResponseUserVM(user));
+        return new ResponseEntity<>(responseUserVM,HttpStatus.OK);
+    }
+    @GetMapping("/users/{userRole}")
+    public ResponseEntity<Page<ResponseUserVM>> UsersRole(@RequestParam UserRole userRole,@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size){
+        Page<User> users=authService.getUserRole(userRole, page, size);
+        Page<ResponseUserVM> responseUserVM=users.map(user -> userMapper.toResponseUserVM(user));
+        return new ResponseEntity<>(responseUserVM,HttpStatus.OK);
     }
 }

@@ -1,6 +1,8 @@
 package com.youjob.youjob.service.impl;
 
 import com.youjob.youjob.domain.Business;
+import com.youjob.youjob.domain.Enum.AnnonceStatus;
+import com.youjob.youjob.domain.Enum.UserRole;
 import com.youjob.youjob.domain.Handyman;
 import com.youjob.youjob.domain.User;
 import com.youjob.youjob.exception.NullVarException;
@@ -10,6 +12,9 @@ import com.youjob.youjob.repository.UserRepository;
 import com.youjob.youjob.service.AuthService;
 import com.youjob.youjob.utils.JwtUtil;
 import com.youjob.youjob.utils.PasswordEncoderUtil;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -74,5 +79,17 @@ public class AuthServiceImpl implements AuthService {
                 handymanUser.setRating(inputHandyman.getRating());
         }
         return userRepository.save(userExist);
+    }
+
+    @Override
+    public Page<User> getUserBricoleur(int page, int size) {
+        Pageable pageable= PageRequest.of(page,size);
+        return userRepository.getAllByRole(UserRole.HANDYMAN,pageable);
+    }
+
+    @Override
+    public Page<User> getUserRole(UserRole userRole, int page, int size) {
+        Pageable pageable= PageRequest.of(page,size);
+        return userRepository.getAllByRole(userRole,pageable);
     }
 }
