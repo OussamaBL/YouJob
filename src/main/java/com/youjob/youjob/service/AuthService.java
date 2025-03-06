@@ -10,5 +10,5 @@ public interface AuthService {
     User Profile(User user);
     Page<User> getUserBricoleur(int page,int size);
     Page<User> getUserRole(UserRole userRole, int page, int size);
-
+    User fetchUser(String username);
 }

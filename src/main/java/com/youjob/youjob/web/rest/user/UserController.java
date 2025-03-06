@@ -6,6 +6,7 @@ import com.youjob.youjob.domain.User;
 import com.youjob.youjob.service.AnnonceService;
 import com.youjob.youjob.service.AuthService;
 import com.youjob.youjob.web.vm.annonce.ResponseHistoryAnnnonceVM;
+import com.youjob.youjob.web.vm.auth.ResponseUserAuthVM;
 import com.youjob.youjob.web.vm.mapper.annonce.AnnonceCreateMapper;
 import com.youjob.youjob.web.vm.mapper.user.UserMapper;
 import com.youjob.youjob.web.vm.user.ProfileVM;
@@ -63,5 +64,11 @@ public class UserController {
         Page<User> users=authService.getUserRole(userRole, page, size);
         Page<ResponseUserVM> responseUserVM=users.map(user -> userMapper.toResponseUserVM(user));
         return new ResponseEntity<>(responseUserVM,HttpStatus.OK);
+    }
+    @GetMapping("/fetch/{username}")
+    public ResponseEntity<ResponseUserAuthVM> fetchUser(@PathVariable String username){
+        User user=authService.fetchUser(username);
+        ResponseUserAuthVM responseUserAuthVM=userMapper.toResponseUserAuthVM(user);
+        return new ResponseEntity<>(responseUserAuthVM,HttpStatus.OK);
     }
 }

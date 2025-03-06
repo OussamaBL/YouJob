@@ -21,6 +21,8 @@ spring:
     username: youjob
     password: password
     url: jdbc:postgresql://localhost:5433/youjob
+
+
     driver-class-name: org.postgresql.Driver
   mail:
     host: smtp.gmail.com
@@ -35,14 +37,14 @@ spring:
             enable: true
 
 server:
-  port: 8443
-  ssl:
-    enabled: true
-    key-alias: spring-https
-    key-store: classpath:java.p12
-    key-store-password: password
-    key-store-type: PKCS12
-    key-password: password
+  port: 8081
+    # ssl:
+    # enabled: true
+    # key-alias: spring-https
+    # key-store: classpath:java.p12
+    # key-store-password: password
+    # key-store-type: PKCS12
+    # key-password: password
 
 logging:
   level:

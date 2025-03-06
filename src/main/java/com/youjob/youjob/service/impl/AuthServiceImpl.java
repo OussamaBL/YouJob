@@ -92,4 +92,12 @@ public class AuthServiceImpl implements AuthService {
         Pageable pageable= PageRequest.of(page,size);
         return userRepository.getAllByRole(userRole,pageable);
     }
+
+    @Override
+    public User fetchUser(String username) {
+        Optional<User>user=userRepository.findByUsername(username);
+        user.orElseThrow( () -> new UserNotExistException("User ot found"));
+        return user.get();
+    }
+
 }

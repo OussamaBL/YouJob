@@ -20,7 +20,7 @@ public class EmailService {
     }
 
     public void sendPasswordResetEmail(String email, String token, String name) throws MessagingException {
-        String resetUrl = "https://localhost:8443/api/auth/password/reset-password?token=" + token;
+        String resetUrl = "http://localhost:4200/reset-password?token=" + token;
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message,
                 MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,

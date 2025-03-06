@@ -15,6 +15,9 @@ import org.springframework.security.authentication.BadCredentialsException;
 
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 @RestController
 @RequestMapping("api/auth")
@@ -32,12 +35,14 @@ public class AuthController {
 
 
     @PostMapping("/register")
-    public ResponseEntity<String> Register(@RequestBody @Valid RegisterVM registerVM) {
+    public ResponseEntity<?> Register(@RequestBody @Valid RegisterVM registerVM) {
         User user=registerMapper.mapToSpecificUser(registerVM);
         User userAdded=authService.Register(user);
         String token= jwtUtil.generateToken(userAdded.getEmail(),userAdded.getUsername(),userAdded.getRole().name());
         try{
-            return new ResponseEntity<>(token, HttpStatus.CREATED);
+            Map<String, String> response = new HashMap<>();
+            response.put("token", token);
+            return new ResponseEntity<>(response,HttpStatus.CREATED);
         }
         catch (BadCredentialsException e) {
             throw new BadCredentialsException(e.getMessage());
@@ -50,10 +55,12 @@ public class AuthController {
         User us=authService.Login(user.getEmail(),user.getPassword());
         String token= jwtUtil.generateToken(us.getEmail(),us.getUsername(),us.getRole().name());
         try{
-            return new ResponseEntity<>(token, HttpStatus.OK);
+            Map<String, String> response = new HashMap<>();
+            response.put("token", token);
+            return new ResponseEntity<>(response,HttpStatus.OK);
         }
         catch (BadCredentialsException e) {
-            throw new BadCredentialsException(e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 }

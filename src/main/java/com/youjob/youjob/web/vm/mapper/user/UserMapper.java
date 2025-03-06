@@ -5,16 +5,19 @@ import com.youjob.youjob.domain.Customer;
 import com.youjob.youjob.domain.Handyman;
 import com.youjob.youjob.domain.User;
 import com.youjob.youjob.web.vm.auth.RegisterVM;
+import com.youjob.youjob.web.vm.auth.ResponseUserAuthVM;
 import com.youjob.youjob.web.vm.user.ProfileVM;
 import com.youjob.youjob.web.vm.user.ResponseUserVM;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Component;
 
 @Component
 @Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface UserMapper {
+    UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
     ResponseUserVM toResponseUserVM(User user);
 
     @Mapping(target = "vatNumber", source = "vatNumber")
@@ -45,6 +48,9 @@ public interface UserMapper {
         }
     }
 
-
+    @Mapping(target = "rating", expression = "java(user instanceof Handyman ? ((Handyman) user).getRating() : null)")
+    @Mapping(target = "skills", expression = "java(user instanceof Handyman ? ((Handyman) user).getSkills() : null)")
+    @Mapping(target = "vatNumber", expression = "java(user instanceof Business ? ((Business) user).getVatNumber() : null)")
+    ResponseUserAuthVM toResponseUserAuthVM(User user);
 
 }
